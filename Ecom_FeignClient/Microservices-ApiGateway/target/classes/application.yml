@@ -1,0 +1,25 @@
+server:
+  port: 8080
+ 
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: product_route
+          uri: http://localhost:8081 # Target service URL
+          predicates:
+            - Path=/api/products/** # Incoming URL pattern
+        - id: order_route
+          uri: http://localhost:8082 # Target service URL
+          predicates:
+            - Path=/api/orders/** # Incoming URL pattern
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+eureka:
+  client:
+    fetch-registry: false
+    register-with-eureka: false
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
